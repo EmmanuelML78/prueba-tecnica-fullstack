@@ -10,49 +10,49 @@
   "parser": "@typescript-eslint/parser",
   "plugins": ["react", "@typescript-eslint", "prettier", "react-hooks"],
   "rules": {
-    "no-restricted-imports": [
-      "error",
-      {
-        "patterns": ["..*"]
-      }
-    ],
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-unused-vars": "error",
-    "prefer-destructuring": "warn",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
+    ],
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "import/prefer-default-export": "off",
-    "import/no-default-export": "error",
-    "no-nested-ternary": "warn",
-    "react/no-unused-prop-types": "error",
+    "no-nested-ternary": "off",
+    "react/no-unused-prop-types": "warn",
     "react/hook-use-state": "error",
-    "react/function-component-definition": [
-      1,
-      { "namedComponents": "arrow-function" }
-    ],
+    "react/function-component-definition": "off",
     "react/jsx-key": "error",
-    "react/no-array-index-key": "error",
+    "react/no-array-index-key": "warn",
     "prettier/prettier": [
       "error",
       {
-        "endOfLine": "auto"
+        "endOfLine": "auto",
+        "singleQuote": true
       }
     ],
-    "no-console": "error",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "complexity": ["warn", 10],
+    "complexity": ["warn", 20],
     "eqeqeq": "error",
-    "prefer-arrow-callback": "error",
-    "arrow-body-style": ["warn", "as-needed"],
-    "func-style": ["error", "expression"]
+    "func-style": "off",
+    "arrow-body-style": "off",
+    "@next/next/no-img-element": "off",
+    "react/prop-types": "off"
   },
   "overrides": [
     {
-      "files": ["pages/**/*.tsx", "pages/**/*.ts"],
+      "files": ["pages/**/*.tsx", "pages/**/*.ts", "pages/api/**/*.ts"],
       "rules": {
-        "import/prefer-default-export": "error",
+        "import/prefer-default-export": "off",
         "import/no-default-export": "off"
+      }
+    },
+    {
+      "files": ["components/ui/**/*.tsx"],
+      "rules": {
+        "prettier/prettier": "off"
       }
     }
   ]

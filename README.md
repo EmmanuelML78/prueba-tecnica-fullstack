@@ -1,117 +1,219 @@
-## Prueba Técnica para Desarrollador Fullstack
+# FinanceApp - Sistema de Gestión de Ingresos y Gastos
 
-### Introducción
+Sistema fullstack para gestionar movimientos financieros, usuarios y reportes. Desarrollado con Next.js, TypeScript, Prisma y Better Auth.
 
-El objetivo de esta prueba técnica es evaluar tus habilidades en el desarrollo de una aplicación fullstack. Deberás implementar un sistema de gestión de ingresos y egresos, la gestión de usuarios y la generación de reportes. El proyecto cuenta con [wireframes](<https://www.figma.com/design/2PINjveveJJ9ZAAwxwNoRK/Wireframes-(Copy)?node-id=0-1&t=6q0Q0id8YnjH9fJt-1>) que pueden servir de guía para el candidato. Sin embargo, el diseño de la interfaz de usuario es libre.
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)
+![Prisma](https://img.shields.io/badge/Prisma-6.2-green)
+![Tests](https://img.shields.io/badge/Tests-36%20passing-success)
 
-### Requisitos del Proyecto
+## 🚀 Características
 
-#### Funcionalidades Principales
+- **Autenticación**: Login con GitHub usando Better Auth
+- **RBAC**: Control de acceso basado en roles (USER/ADMIN)
+- **Movimientos**: CRUD de ingresos y egresos
+- **Usuarios**: Gestión de usuarios (solo admin)
+- **Reportes**: Gráficos, estadísticas y exportación a CSV
+- **API REST**: Documentada con OpenAPI/Swagger en `/api/docs`
+- **Dark Mode**: Interfaz elegante estilo Vercel/GitHub
 
-1. **Roles y Permisos**
-   - **Roles:**
-     - **Usuario:** Solo puede acceder a la gestión de movimientos.
-     - **Administrador:** Puede ver los reportes, editar usuarios y agregar movimientos.
-   - **Nota:** Para efectos de prueba, todos los nuevos usuarios deben ser automáticamente asignados con el rol "ADMIN".
+## 📋 Requisitos Previos
 
-2. **Home**
-   - Página de inicio con un menú principal que permite la navegación a tres secciones:
-     - Sistema de gestión de ingresos y gastos (disponible para todos los roles)
-     - Gestión de usuarios (solo para administradores)
-     - Reportes (solo para administradores)
+- Node.js 18+
+- npm o bun
+- Cuenta en [Supabase](https://supabase.com) (base de datos PostgreSQL)
+- Cuenta en [GitHub](https://github.com/settings/developers) (OAuth App)
 
-3. **Sistema de Gestión de Ingresos y Gastos**
-   - **Vista de Ingresos y Egresos**
-     - Implementar una tabla que muestre los ingresos y egresos registrados con las siguientes columnas:
-       - Concepto
-       - Monto
-       - Fecha
-       - Usuario
-     - Botón "Nuevo" para agregar un nuevo ingreso o egreso (solo para administradores).
-   - **Formulario de Nuevo Ingreso/Egreso**
-     - Formulario con los campos:
-       - Monto
-       - Concepto
-       - Fecha
-     - Botón para guardar el nuevo movimiento.
+## 🛠️ Instalación Local
 
-4. **Gestión de Usuarios** (solo para administradores)
-   - **Vista de Usuarios**
-     - Tabla que muestre la lista de usuarios con las siguientes columnas:
-       - Nombre
-       - Correo
-       - Teléfono
-       - Acciones (editar usuario)
-   - **Formulario de Edición de Usuario**
-     - Formulario con los campos:
-       - Nombre
-       - Rol
-     - Botón para guardar los cambios.
+### 1. Clonar el repositorio
 
-5. **Reportes** (solo para administradores)
-   - Mostrar un gráfico de movimientos financieros.
-   - Mostrar el saldo actual.
-   - Botón para descargar el reporte en formato CSV.
+```bash
+git clone https://github.com/tu-usuario/prueba-tecnica-fullstack.git
+cd prueba-tecnica-fullstack
+```
 
-### Requisitos Técnicos
+### 2. Instalar dependencias
 
-- **Tecnologías y Herramientas:**
-  - **Frontend:**
-    - Next.js utilizando `pages` router.
-    - TypeScript.
-    - Tailwind CSS.
-    - Shadcn para componentes de la interfaz de usuario.
-    - NextJS API routes para comunicación con el backend.
-  - **Backend:**
-    - NextJS API routes para implementar endpoints REST.
-    - Base de datos de Postgres en Supabase.
-     - **Documentación de API:** Implementar una ruta `/api/docs` que exponga la documentación del API usando OpenAPI/Swagger. Cada endpoint creado debe estar completamente documentado con sus parámetros, respuestas y ejemplos.
-   - **Protección de Datos:**
-     - Implementar control de acceso basado en roles (RBAC) para asegurar que solo los usuarios autorizados puedan acceder a ciertas funcionalidades y datos.
-     - Proteger el backend para que rechace conexiones no autenticadas.
-   - **Autenticación:**
-     - Utilizar [Better Auth](https://www.better-auth.com/) con [GitHub](https://github.com/settings/developers) como proveedor de autenticación y [Prisma](https://prisma.io) como adaptador para la autenticación por sesiones de base de datos.
-     - **IMPORTANTE:** Todos los nuevos usuarios que se registren deben ser automáticamente asignados con el rol "ADMIN" para facilitar las pruebas de la aplicación.
-   - **Pruebas unitarias**  - El candidato debe agregar al menos 3 pruebas unitarias donde considere necesario.
-  - **Despliegue:**
-    - Desplegar el proyecto en Vercel.
+```bash
+npm install
+```
 
-### Entregables
+### 3. Configurar variables de entorno
 
-1. **Código Fuente:**
-   - Repositorio en GitHub con el código fuente del proyecto.
-   - Incluir un archivo README con instrucciones claras sobre cómo ejecutar el proyecto localmente y cómo desplegarlo en Vercel.
+Crear un archivo `.env` en la raíz del proyecto:
 
-2. **Despliegue:**
-   - Proyecto desplegado en Vercel con la URL proporcionada.
+```env
+# Database - Supabase PostgreSQL
+DATABASE_URL="postgresql://postgres.[REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres"
 
-### Criterios de Evaluación
+# Better Auth
+BETTER_AUTH_SECRET="genera-un-string-aleatorio-de-32-caracteres"
+BETTER_AUTH_URL="http://localhost:3000"
+NEXT_PUBLIC_BETTER_AUTH_URL="http://localhost:3000"
 
-- **Funcionalidad:**
-  - Cumplimiento de todos los requisitos funcionales.
-  - Correcta implementación del CRUD para ingresos, egresos y usuarios.
-  - Generación y descarga de reportes en formato CSV.
+# GitHub OAuth
+GITHUB_CLIENT_ID="tu-client-id"
+GITHUB_CLIENT_SECRET="tu-client-secret"
+```
 
-- **Calidad del Código:**
-  - Calidad y claridad del código.
-  - Uso adecuado de las mejores prácticas de desarrollo.
-  - Estructura del proyecto.
-  - Documentación completa de la API con OpenAPI/Swagger.
+#### Obtener DATABASE_URL de Supabase:
 
-- **Diseño y UX:**
-  - Usabilidad de la interfaz.
-  - Implementación de un diseño atractivo.
+1. Ir a [Supabase Dashboard](https://supabase.com/dashboard)
+2. Seleccionar tu proyecto → Settings → Database
+3. Copiar la Connection String (Session Pooler para mejor compatibilidad)
 
-- **Pruebas y Documentación:**
-  - Cobertura de pruebas unitarias.
-  - Calidad de los comentarios dentro del proyecto.
+#### Obtener credenciales de GitHub:
 
-- **Seguridad:**
-  - Implementación efectiva de control de acceso basado en roles (RBAC).
-  - Protección adecuada de los datos sensibles.
+1. Ir a [GitHub Developer Settings](https://github.com/settings/developers)
+2. Crear nueva OAuth App
+3. Homepage URL: `http://localhost:3000`
+4. Callback URL: `http://localhost:3000/api/auth/callback/github`
 
-- **Notas**:
-  - El aplicativo no debe contener diseño responsivo.
-  - El candidato puede utilizar el código cargado en este repositorio. Sin embargo, esta no es una condición necesaria y el candidato puede iniciar el proyecto de 0 si lo desea.
-  - El candidato puede cambiar las versiones de las librerías si lo considera necesario.
-  - El candidato debe compartir el acceso al repositorio de GitHub y el .env a los correos mlopera@prevalentware.com, jdsanchez@prevalentware.com y dfsorza@prevalentware.com
+### 4. Ejecutar migraciones de Prisma
+
+```bash
+npx prisma migrate dev
+```
+
+### 5. Iniciar el servidor de desarrollo
+
+```bash
+npm run dev
+```
+
+La aplicación estará disponible en `http://localhost:3000`
+
+## 📚 Scripts Disponibles
+
+| Script                  | Descripción                      |
+| ----------------------- | -------------------------------- |
+| `npm run dev`           | Inicia el servidor de desarrollo |
+| `npm run build`         | Compila para producción          |
+| `npm run start`         | Inicia el servidor de producción |
+| `npm run lint`          | Ejecuta el linter                |
+| `npm test`              | Ejecuta las pruebas unitarias    |
+| `npm run test:watch`    | Ejecuta tests en modo watch      |
+| `npm run test:coverage` | Ejecuta tests con cobertura      |
+
+## 🧪 Pruebas Unitarias
+
+El proyecto incluye **36 pruebas unitarias** que cubren:
+
+- **Utilidades de formateo**: Moneda, fechas, cálculo de balance
+- **Validaciones**: Movimientos, actualización de usuarios
+- **Componentes**: Sidebar con RBAC
+
+```bash
+npm test
+```
+
+## 📖 Documentación de la API
+
+La documentación está disponible en `/api/docs` usando Swagger UI.
+
+### Endpoints principales:
+
+| Método | Endpoint           | Descripción        | Acceso |
+| ------ | ------------------ | ------------------ | ------ |
+| GET    | `/api/me`          | Usuario actual     | Auth   |
+| GET    | `/api/movements`   | Listar movimientos | Auth   |
+| POST   | `/api/movements`   | Crear movimiento   | Admin  |
+| GET    | `/api/users`       | Listar usuarios    | Admin  |
+| PUT    | `/api/users/[id]`  | Editar usuario     | Admin  |
+| GET    | `/api/reports`     | Datos de reporte   | Admin  |
+| GET    | `/api/reports/csv` | Descargar CSV      | Admin  |
+
+## 🚀 Deploy en Vercel
+
+### 1. Conectar repositorio
+
+1. Ir a [Vercel](https://vercel.com)
+2. Importar el repositorio de GitHub
+3. Configurar las variables de entorno
+
+### 2. Variables de entorno en Vercel
+
+Agregar las mismas variables del `.env`:
+
+| Variable                      | Valor                                           |
+| ----------------------------- | ----------------------------------------------- |
+| `DATABASE_URL`                | Tu connection string de Supabase                |
+| `BETTER_AUTH_SECRET`          | String aleatorio de 32+ caracteres              |
+| `BETTER_AUTH_URL`             | URL de tu app (ej: `https://tu-app.vercel.app`) |
+| `NEXT_PUBLIC_BETTER_AUTH_URL` | Igual que BETTER_AUTH_URL                       |
+| `GITHUB_CLIENT_ID`            | Client ID de GitHub OAuth                       |
+| `GITHUB_CLIENT_SECRET`        | Client Secret de GitHub OAuth                   |
+
+### 3. Actualizar GitHub OAuth
+
+En GitHub Developer Settings, actualizar la OAuth App con la URL de producción:
+
+- Homepage URL: `https://tu-app.vercel.app`
+- Callback URL: `https://tu-app.vercel.app/api/auth/callback/github`
+
+### 4. Deploy
+
+Vercel detectará automáticamente Next.js y ejecutará el build.
+
+## 🏗️ Estructura del Proyecto
+
+```
+├── __tests__/              # Pruebas unitarias (36 tests)
+├── components/
+│   ├── layout/             # Layout y Sidebar
+│   └── ui/                 # Componentes Shadcn
+├── lib/
+│   ├── auth/               # Configuración de Better Auth
+│   ├── utils/              # Utilidades (formateo, validación)
+│   ├── openapi.ts          # Especificación OpenAPI
+│   └── prisma.ts           # Cliente de Prisma (singleton)
+├── pages/
+│   ├── api/                # API Routes
+│   │   ├── auth/           # Better Auth handler
+│   │   ├── movements/      # CRUD de movimientos
+│   │   ├── users/          # Gestión de usuarios
+│   │   ├── reports/        # Reportes y CSV
+│   │   ├── docs.ts         # Swagger UI
+│   │   └── me.ts           # Usuario actual
+│   ├── index.tsx           # Dashboard
+│   ├── login.tsx           # Login con GitHub
+│   ├── movements.tsx       # Gestión de movimientos
+│   ├── users.tsx           # Gestión de usuarios
+│   └── reports.tsx         # Reportes y gráficos
+├── prisma/
+│   └── schema.prisma       # Schema de la base de datos
+├── styles/
+│   └── globals.css         # Estilos globales (Dark Mode)
+└── types/
+    └── file-system.d.ts    # Tipos para File System API
+```
+
+## 🔒 Seguridad
+
+- **Autenticación**: Sesiones almacenadas en base de datos con Better Auth
+- **RBAC**: Middleware `withAuth` para autorización por roles
+- **Validación**: Datos validados en frontend y backend
+- **Protección de rutas**: APIs rechazan peticiones no autenticadas
+
+## 👥 Roles
+
+| Rol       | Permisos                                          |
+| --------- | ------------------------------------------------- |
+| **USER**  | Ver y gestionar movimientos                       |
+| **ADMIN** | Acceso completo (movimientos, usuarios, reportes) |
+
+> **Nota**: Por requisito de la prueba, todos los usuarios nuevos se crean con rol ADMIN.
+
+## 🛡️ Tecnologías
+
+- **Frontend**: Next.js 15, React 18, TypeScript, Tailwind CSS, Shadcn/ui
+- **Backend**: Next.js API Routes, Prisma ORM
+- **Base de datos**: PostgreSQL (Supabase)
+- **Autenticación**: Better Auth con GitHub OAuth
+- **Testing**: Jest, Testing Library
+- **Documentación**: OpenAPI/Swagger
+
+---
+
+Desarrollado para prueba técnica de PrevalentWare.
