@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,6 +10,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ============================================
+// ENUMS - Definimos los tipos permitidos
+// ============================================
+
+// Roles para RBAC (Role-Based Access Control)
+// USER: solo puede ver/crear movimientos
+// ADMIN: puede todo (usuarios, reportes, movimientos)
+enum Role {
+  USER
+  ADMIN
+}
+
+// Tipos de movimiento financiero
+// Usamos enum en vez de signo en monto para ser EXPLÍCITOS
+enum MovementType {
+  INCOME   // Ingreso
+  EXPENSE  // Egreso/Gasto
+}
+
+// ============================================
+// MODELS - Better Auth requiere estos nombres
+// ============================================
+
 model User {
   id            String    @id
   name          String
@@ -21,8 +41,15 @@ model User {
   image         String?
   createdAt     DateTime
   updatedAt     DateTime
+  
+  // === Campos custom para nuestra app ===
+  phone         String?           // Teléfono (opcional, requerido en UI de gestión)
+  role          Role     @default(ADMIN)  // Por defecto ADMIN (requisito de la prueba)
+  
+  // === Relaciones ===
   sessions      Session[]
   accounts      Account[]
+  movements     Movement[]        // Un usuario puede tener muchos movimientos
 
   @@unique([email])
   @@map("user")
@@ -71,4 +98,31 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+// ============================================
+// MODELO DE NEGOCIO - Movimientos financieros
+// ============================================
+
+model Movement {
+  id        String       @id @default(cuid())  // cuid() genera IDs únicos
+  concept   String                              // Descripción del movimiento
+  amount    Decimal      @db.Decimal(12, 2)    // 12 dígitos, 2 decimales (hasta 9,999,999,999.99)
+  type      MovementType                        // INCOME o EXPENSE
+  date      DateTime                            // Fecha del movimiento
+  
+  // === Auditoría ===
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  
+  // === Relación con usuario ===
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // === Índices para performance en queries ===
+  @@index([userId])           // Búsquedas por usuario
+  @@index([date])             // Ordenar/filtrar por fecha
+  @@index([type])             // Filtrar por tipo
+  
+  @@map("movement")
 }
