@@ -1,9 +1,14 @@
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 
-const prisma = new PrismaClient();
-
+/**
+ * Configuración de Better Auth
+ *
+ * - Usa Prisma como adaptador para guardar sesiones en PostgreSQL
+ * - GitHub como único proveedor de autenticación (requisito de la prueba)
+ * - Las sesiones se guardan en la BD, no en cookies/JWT
+ */
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
